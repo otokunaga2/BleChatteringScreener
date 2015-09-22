@@ -10,13 +10,14 @@ import javax.xml.bind.annotation.XmlRootElement;
  * "いつ"と"どこ"を返すクラス
  *
  * @author tktk
+ * @author tokunaga
  *
  */
 @XmlRootElement(name = "whenwhere")
 public class WhenWhere {
 
 	private String userid;
-	private String stationid;
+	private int stationid;
 	private String locationName;
 	private boolean existance;
 	private Timestamp lastUpdate;
@@ -25,11 +26,11 @@ public class WhenWhere {
 	
 	// デフォルトコンストラクタ
 	public WhenWhere() {
-		this("", "", "", new Timestamp(0));
+		this("", 0, "", new Timestamp(0));
 	}
 
 	// コンストラクタ
-	public WhenWhere(String userid, String stationid, String locationName,
+	public WhenWhere(String userid, int stationid, String locationName,
 			Timestamp lastUpdate) {
 		this.userid = userid;
 		this.stationid = stationid;
@@ -53,7 +54,7 @@ public class WhenWhere {
 	}
 
 	@XmlElement(name = "stationid")
-	public String getStationid() {
+	public int getStationid() {
 		return stationid;
 	}
 
@@ -80,7 +81,7 @@ public class WhenWhere {
 		this.userid = userid;
 	}
 
-	public void setStationid(String stationid) {
+	public void setStationid(int stationid) {
 		this.stationid = stationid;
 	}
 

@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Date;
+import java.util.Timer;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -12,6 +13,7 @@ import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 
 import jp.kobe_u.cs24.service.BleChatteringScreening.logic.ChatteringScreeningLogic;
+
 import org.jsoup.Jsoup;
 import org.jsoup.nodes.Document;
 import org.jsoup.select.Elements;
@@ -55,8 +57,10 @@ public class BleChatteringScreeningService {
     @GET
     @Produces(MediaType.TEXT_PLAIN)
     public String readIt() {
-		int test = mainLogic.getNumberOfData();
-		return "ok"+test;
+		Timer timer1 = new Timer();
+		timer1.schedule(new ChatteringScreeningLogic(),0,1000);
+//		int test = mainLogic.getNumberOfData();
+		return "ok";
 //		Document doc = null;
 //		try {
 //			doc = (Document) Jsoup.connect("http://192.168.100.115:8080/LOCS4Beacon/api/whenwhere?userid=tokunaga").get();

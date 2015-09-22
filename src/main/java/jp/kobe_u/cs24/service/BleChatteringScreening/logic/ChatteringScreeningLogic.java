@@ -2,14 +2,37 @@ package jp.kobe_u.cs24.service.BleChatteringScreening.logic;
 
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Timestamp;
+import java.util.TimerTask;
 
-public class ChatteringScreeningLogic {
+import jp.kobe_u.cs24.service.BleChatteringScreening.model.WhenWhere;
+
+public class ChatteringScreeningLogic extends TimerTask{
+	private static final int WAITTIME = 5000;
+	private final int CHATARING_THREASHOLD = 6000*3;/*チャタリングの調整時間（ひとまず*分に設定しておいて，後でDBなどを参照できるようにする）*/
+	final String countQuery = "select count(*) from currents";
+	private WhenWhere  prevDate = null;
+	private Integer prevDBSize = 0; 
+	public ChatteringScreeningLogic(){
+		prevDate = new WhenWhere();
+	}
 	
+	public void run(){
+		synchronized (prevDate) {
+			if(prevDate != null){
+			}
+		}
+	}
+	
+	
+	public WhenWhere parsedCurrentAPIData(){
+		
+		return null;
+	}
 	
 	public int getNumberOfData(){
 		int count = 0;
-		
-		ResultSet rs = MyDBAdopter.getInstance().execute("select count(*) from currents");
+		ResultSet rs = MyDBAdopter.getInstance().execute(countQuery);
 		//ResultSet rs = mysqlAdopter.execute();
 		try {
 			while(rs.next()){
@@ -23,29 +46,20 @@ public class ChatteringScreeningLogic {
 		
 	}
 	
-	private static int diff = 0;
-	private static int numberOfdata = 0;
-//	public static synchronized int start(){
-//		int count = 0;
-//		try {
-//			Thread.sleep(1000);
-//		} catch (InterruptedException e) {
-//			// TODO Auto-generated catch block
-//			e.printStackTrace();
-//		}
-//		
-//	}
-	public static synchronized int judge(){
-	
+	public boolean diffWithPrevDate(WhenWhere prevWhenWhere, WhenWhere currentData){
+		int elapsedTime = currentData.getLastUpdateTimestamp().compareTo(prevWhenWhere.getLastUpdateTimestamp()); 
 		
-		return 1;
+		if (elapsedTime > CHATARING_THREASHOLD){
+			/*一定時間経過しているので，データの書き換えを認める*/
+			return true;
+		}
+		return false;
 	}
-	public int stop(){
-		return 1;
+	public int getPrevDBSize() {
+		return prevDBSize;
 	}
-	
-	private static void judgeWithDateTime(){
-		//mysqlのデータが1件更新されていた時に初めて，以下の文を実行する
-		System.out.println("hogehoge");
+
+	public void setPrevDBSize(int prevDBSize) {
+		this.prevDBSize = prevDBSize;
 	}
 }
