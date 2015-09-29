@@ -8,7 +8,6 @@ import javax.xml.bind.annotation.XmlRootElement;
 @XmlRootElement(name = "route")
 public class Route {
 	private String userid;
-	
 	private String routeName;
 	private Timestamp time; 
 	

@@ -16,6 +16,8 @@ import org.jsoup.select.Elements;
 public class XmlParser {
 	static final String querySelector = "existance, lastupdate, locationname, stationid, userid";
 
+	// 右のurlを前提に作っている。http://192.168.100.115:8080/LOCS4Beacon/api/whenwhere?userid=";
+
 	public static WhenWhere obtainCurrentDataFromWebAPI(final String uri) {
 		WhenWhere whenWhereElem = new WhenWhere();
 		try {
@@ -29,15 +31,17 @@ public class XmlParser {
 							.text()));
 					break;
 				case "lastupdate":
-					whenWhereElem.setLastUpdate(parseDate(element.text().toString()));
-				case "locationname" :
+					whenWhereElem.setLastUpdate(parseDate(element.text()
+							.toString()));
+				case "locationname":
 					whenWhereElem.setLocationName(element.text().toString());
 					break;
 				case "stationid":
-					if("".equals(element.text())){
-						
-					}else{
-						whenWhereElem.setStationid(Integer.valueOf(element.text()));
+					if ("".equals(element.text())) {
+
+					} else {
+						whenWhereElem.setStationid(Integer.valueOf(element
+								.text()));
 					}
 					break;
 				case "userid":
@@ -55,8 +59,22 @@ public class XmlParser {
 
 		return whenWhereElem;
 	}
-	
-	public static Timestamp parseDate(final String dateData){
+
+	private static boolean filterWithValue(Elements elms) {
+		for (Element element : elms) {
+			switch (element.tagName()) {
+			case "existance":
+				return true;
+				
+			default:
+				break;
+			}
+
+		}
+		return false;
+	}
+
+	public static Timestamp parseDate(final String dateData) {
 		SimpleDateFormat sdf = new SimpleDateFormat("YYYY-MM-DD HH:mm:ss");
 		Date formatToDate = null;
 		Timestamp formatDate = null;

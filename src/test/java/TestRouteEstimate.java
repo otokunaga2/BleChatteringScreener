@@ -1,12 +1,18 @@
 /**
  * 
  */
-package src.test.java;
+
 
 import static org.junit.Assert.*;
 
 import java.util.HashMap;
 import java.util.concurrent.ArrayBlockingQueue;
+
+
+
+
+
+
 
 import jp.kobe_u.cs24.service.BleChatteringScreening.Utility;
 import jp.kobe_u.cs24.service.BleChatteringScreening.logic.RouteEstimate;
@@ -53,6 +59,8 @@ public class TestRouteEstimate {
 				Utility.getCurrentTime());
 		WhenWhere routeB = new WhenWhere("tokunaga", 1, "entrance",
 				Utility.getCurrentTime());
+		
+		
 		monitorMap = new HashMap<String, ArrayBlockingQueue<WhenWhere>>();
 		try {
 			holdBlockingQueue.put(routeA);

@@ -1,7 +1,7 @@
 /**
  * 
  */
-package src.test.java;
+
 
 import static org.junit.Assert.*;
 
@@ -31,6 +31,8 @@ public class TestParser {
 	private ChatteringScreeningLogic screenLogic;
 	private WhenWhere testSampleDate;
 	private WhenWhere oldtestSampleWhenWhere;
+	private 
+	XmlParser xmlParser;
 	/**
 	 * @throws java.lang.Exception
 	 */
@@ -44,14 +46,14 @@ public class TestParser {
 	@AfterClass
 	public static void tearDownAfterClass() throws Exception {
 	}
-
+	
 	/**
 	 * @throws java.lang.Exception
 	 */
 	@Before
 	public void setUp() throws Exception {
 		sdf = new SimpleDateFormat("YYYY-MM-DD HH:mm:ss");
-		screenLogic = new ChatteringScreeningLogic();
+//		screenLogic = new ChatteringScreeningLogic();
 		Date tempDate = null;
 		try {
 			tempDate = sdf.parse("2015-09-14 18:50:21");
@@ -65,6 +67,7 @@ public class TestParser {
 		Timestamp testTimedata = new Timestamp(tempDate.getTime());
 		testSampleDate = new WhenWhere("tokunaga", 2, "entrance", testTimedata);
 		oldtestSampleWhenWhere = new WhenWhere("yasuda",1,"",testOldData);
+		xmlParser = new XmlParser();
 	
 	}
 
@@ -100,8 +103,8 @@ public class TestParser {
 		}
 		Timestamp testTimedata = new Timestamp(tempDate.getTime());
 		WhenWhere testDate = new WhenWhere("tokunaga", 2, "", testTimedata);
-		WhenWhere actualData = XmlParser.obtainCurrentDataFromWebAPI("http://192.168.100.115:8080/LOCS4Beacon/api/whenwhere?userid=tokunaga");
-		assertEquals(testDate.getLocationName(), actualData.getLocationName());
+		WhenWhere actualData = xmlParser.obtainCurrentDataFromWebAPI("http://192.168.100.115:8080/LOCS4Beacon/api/whenwhere?userid=tokunaga");
+		assertEquals("entrance", actualData.getLocationName());
 	}
 	@Test
 	public void testWhenNullInDatabase(){
